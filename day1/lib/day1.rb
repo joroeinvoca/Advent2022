@@ -7,11 +7,13 @@ class Day1
     current = 0
 
     File.foreach(file) do |line|
-      if stripped = line.strip
+      stripped = line.strip
+      unless stripped.empty?
         current += stripped.to_i
       else
         if current > max
           max = current
+          current = 0
         end
       end
     end
