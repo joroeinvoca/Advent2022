@@ -26,7 +26,7 @@ class Day1
 
     File.foreach(file) do |line|
       stripped = line.strip
-      if stripped.empty? ||
+      if stripped.empty?
         if max_three.size < 3
           max_three << current
         else
