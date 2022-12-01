@@ -7,4 +7,8 @@ describe 'day 1' do
     expect(Day1.find_most('day1/data/day1example.txt')).to eq(24000)
   end
 
+  it 'the total calories of the 3 fattest elves' do
+    expect(Day1.find_three_most_total('day1/data/day1example.txt')).to eq(45000)
+  end
+
 end
