@@ -9,4 +9,8 @@ describe 'day4' do
   it 'part 1 real data' do
     expect(Day4.complete_overlaps('day4/data/day4data.txt')).to eq(542)
   end
+
+  it 'part 2 example data' do
+    expect(Day4.partial_overlaps('day4/data/day4example.txt')).to eq(4)
+  end
 end
