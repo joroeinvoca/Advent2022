@@ -40,6 +40,10 @@ class Day5
   end
 
   def self.crates_on_top(stacks)
-    
+    result = ''
+    for i in 1 .. stacks.size do
+      result << stacks[i].first
+    end
+    result
   end
 end
