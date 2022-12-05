@@ -1,6 +1,6 @@
 
 class Day5
-  def self.crate_results(file)
+  def self.crate_results(file, move_many)
     stacks = {}
 
     File.foreach(file) do |line|
@@ -30,10 +30,17 @@ class Day5
         instructions[3] = instructions[3].to_i
         instructions[5] = instructions[5].to_i
         # do stuff number of times of crates to move
-        instructions[1].times {
-          # put the crate we're removing (shift) onto the destination stack (unshift)
-          stacks[instructions[5]].unshift(stacks[instructions[3]].shift)
-        }
+        if move_many
+          to_move = stacks[instructions[3]].shift(instructions[1])
+          to_move.reverse!.each do |crate|
+            stacks[instructions[5]].unshift(crate)
+          end
+        else
+          instructions[1].times {
+            # put the crate we're removing (shift) onto the destination stack (unshift)
+            stacks[instructions[5]].unshift(stacks[instructions[3]].shift)
+          }
+        end
       end
     end
     stacks
