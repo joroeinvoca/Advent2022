@@ -39,4 +39,15 @@ class Day7
     end
     total
   end
+
+  def self.find_smallest_big_dir(file)
+    filesystem = populate_filesystem(file)
+    available = 70000000 - filesystem['//']
+    update_size = 30000000
+    needed = update_size - available
+
+    filesystem.delete_if { |k, v| v < needed}
+
+    filesystem.values.min
+  end
 end
