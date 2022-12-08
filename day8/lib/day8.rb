@@ -1,12 +1,17 @@
 
 class Day8
-  def self.count_visible_trees(file)
+  def self.make_forest(file)
     trees = []
     row = 0
     File.foreach(file, chomp: true) do |line|
       trees[row] = line.chars.map(&:to_i)
       row += 1
     end
+    trees
+  end
+
+  def self.count_visible_trees(file)
+    trees = make_forest(file)
     sum = 0
     #count edge trees
     sum += 2*trees.size
