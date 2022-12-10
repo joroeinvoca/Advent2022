@@ -13,4 +13,12 @@ describe 'day 9' do
   it 'part 2 example data' do
     expect(Day9.long_tail_touch_tally('day9/data/day9example.txt')).to eq(1)
   end
+
+  it 'part 2 real data wrong answer' do
+    expect(Day9.long_tail_touch_tally('day9/data/day9data.txt')).to be > 925
+  end
+
+  it 'part 2 other example data' do
+    expect(Day9.long_tail_touch_tally('day9/data/day9example2.txt')).to eq(36)
+  end
 end
