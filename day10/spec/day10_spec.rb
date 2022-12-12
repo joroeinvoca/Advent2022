@@ -32,5 +32,27 @@ describe 'day 10' do
       sig = Day10.cycle_signals('day10/data/day10data.txt')
       expect(Day10.signal_strength(sig, [20, 60, 100, 140, 180, 220])).to be < 14560
     end
+
+    it 'real data correct answer' do
+      sig = Day10.cycle_signals('day10/data/day10data.txt')
+      expect(Day10.signal_strength(sig, [20, 60, 100, 140, 180, 220])).to eq(13440)
+    end
+  end
+
+  context 'part 2' do
+    it 'does something - example' do
+      sig = Day10.cycle_signals('day10/data/day10example.txt')
+      pix = Day10.populate_pixels(sig)
+      expect pix
+      expect(Day10.draw_screen(pix))
+      puts "\n\n\n"
+    end
+
+    it 'does something - real data' do
+      sig = Day10.cycle_signals('day10/data/day10data.txt')
+      pix = Day10.populate_pixels(sig)
+      expect pix
+      expect(Day10.draw_screen(pix))
+    end
   end
 end
