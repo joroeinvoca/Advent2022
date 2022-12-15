@@ -1,12 +1,10 @@
 
 class Day11
-  def self.monkey_business_level(file)
+  def self.monkey_business_level(file, total_cycles)
     monkey_items = {}
     monkey_op = {}
     monkey_test = {}
     objects_inspected = {}
-
-    total_cycles = 20
 
     File.open(file).each_slice(7) do |chunk|
       chunk.map!(&:chomp)
