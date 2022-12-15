@@ -5,6 +5,7 @@ class Day11
     monkey_op = {}
     monkey_test = {}
     objects_inspected = {}
+    cm = 1
 
     File.open(file).each_slice(7) do |chunk|
       chunk.map!(&:chomp)
@@ -22,6 +23,10 @@ class Day11
       monkey_test[monkey] = [div, if_t, if_f]
       # populate objects inspected
       objects_inspected[monkey] = 0
+
+      monkey_test.values.each do |val_arr|
+        cm = cm * val_arr[0]
+      end
     end
 
     # figure out where item goes
@@ -33,10 +38,13 @@ class Day11
           objects_inspected[current_monkey] += 1
           # Monkey inspects an item
           current_item = monkey_items[current_monkey].shift
+          current_item = current_item % cm
           # monkey_op changes worry level
           current_item = monkey_math(current_item, monkey_op[current_monkey][3], monkey_op[current_monkey][4])
           # Worry level is divided by 3 (and rounded down)
-          current_item = (current_item / 3).to_i
+          if total_cycles == 20
+            current_item = (current_item / 3).to_i
+          end
           # eval rule, item (with new worry level) passed to true or false monkey (to end of list)
           if current_item % monkey_test[current_monkey][0] == 0
             monkey_items[monkey_test[current_monkey][1]].push(current_item)
