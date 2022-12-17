@@ -3,11 +3,12 @@ class Day12
   # S == a
   # E == z
 
-  @heightmap = {}
-  @letters = [*('a'..'z')]
-  @route_values = {}
+
 
   def self.find_path(file)
+    @heightmap = {}
+    @letters = [*('a'..'z')]
+    @route_values = {}
 
     cur_row = 0
     start_pos = []
@@ -89,7 +90,7 @@ class Day12
       if values.size > 0
         cur_pos = values.min_by{ |k, v| v }[0]
       else
-        break
+        raise('hell')
       end
     end
   end
