@@ -5,7 +5,7 @@ class Day12
 
 
 
-  def self.find_path(file)
+  def self.load_scenario(file)
     @heightmap = {}
     @letters = [*('a'..'z')]
     @route_values = {}
@@ -42,10 +42,23 @@ class Day12
       end
     end
 
-    @route_values[start_pos[0]][start_pos[1]] = 0
-    @visited[start_pos[0]][start_pos[1]] = 1
-
     @queue_to_check << start_pos
+    @route_values[start_pos[0]][start_pos[1]] = 0
+  end
+
+  def self.find_shortest_path_from(file, multiple_starts = false)
+    load_scenario(file)
+
+    if multiple_starts
+      @heightmap.each do |row_num, row|
+        row.each do |col_num, val|
+          if val == 'a'
+            @queue_to_check << [row_num, col_num]
+            @route_values[row_num][col_num] = 0
+          end
+        end
+      end
+    end
 
     while @queue_to_check.size > 0
       if @visited.dig(@goal_pos[0], @goal_pos[1]) == 1
@@ -59,8 +72,6 @@ class Day12
   end
 
   def self.check_directions(cur_pos)
-
-
     adjoining_values = {}
 
     # up?
