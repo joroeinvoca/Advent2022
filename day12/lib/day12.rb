@@ -91,9 +91,7 @@ class Day12
       else
         break
       end
-
     end
-    puts 'hello'
   end
 
   def self.check_route(cur_pos, coords_to_check)
