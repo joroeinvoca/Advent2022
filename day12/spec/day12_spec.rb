@@ -7,6 +7,6 @@ describe 'day 12' do
   end
 
   it 'real data part 1' do
-    expect(Day12.find_path('day12/data/day12data.txt')).to be_a(Integer)
+    expect(Day12.find_path('day12/data/day12data.txt')).to eq(520)
   end
 end
