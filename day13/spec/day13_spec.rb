@@ -5,4 +5,8 @@ describe 'day 13' do
   it 'part 1 example' do
     expect(Day13.sum_correct_indicies('day13/data/day13example.txt')).to eq(13)
   end
+
+  it 'part 1 data' do
+    expect(Day13.sum_correct_indicies('day13/data/day13data.txt')).to eq(6478)
+  end
 end

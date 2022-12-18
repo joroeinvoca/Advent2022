@@ -24,10 +24,19 @@ class Day13
       if pac_left[i].kind_of?(Array) && pac_right[i].kind_of?(Array)
         # if both lists, check values in lists
         result = is_order_correct(pac_left[i], pac_right[i])
+        if !result.nil?
+          return result
+        end
       elsif pac_left[i].kind_of?(Array)
         result = is_order_correct(pac_left[i], [pac_right[i]])
+        if !result.nil?
+          return result
+        end
       elsif pac_right[i].kind_of?(Array)
         result = is_order_correct([pac_left[i]], pac_right[i])
+        if !result.nil?
+          return result
+        end
       elsif pac_left[i].kind_of?(Integer) && pac_right[i].kind_of?(Integer)
         # if both ints
         if pac_left[i] == pac_right[i]
