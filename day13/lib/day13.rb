@@ -58,4 +58,15 @@ class Day13
     end
     result
   end
+
+  def self.order_packets(file)
+
+  end
+
+  def self.find_decoder_key(file)
+    # order packets
+
+    # multiply indicies of special packets
+  end
+
 end
