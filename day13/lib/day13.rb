@@ -60,13 +60,38 @@ class Day13
   end
 
   def self.order_packets(file)
+    input = []
 
+    File.foreach(file, chomp:true) do |line|
+      if line.length > 0
+        input << eval(line)
+      end
+    end
+
+    input << eval('[[2]]')
+    input << eval('[[6]]')
+
+    all_correct = false
+    until all_correct do
+      all_correct = true
+      for i in 0 .. input.size - 2 do
+        input_left = input[i]
+        input_right = input[i + 1]
+        if !is_order_correct(input_left, input_right)
+          input[i] = input_right
+          input[i + 1] = input_left
+          all_correct = false
+        end
+      end
+    end
+    input
   end
 
   def self.find_decoder_key(file)
     # order packets
-
+    packets = order_packets(file)
     # multiply indicies of special packets
+    (packets.index(eval('[[2]]')) + 1) * (packets.index(eval('[[6]]')) + 1)
   end
 
 end

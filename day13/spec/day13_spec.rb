@@ -32,8 +32,14 @@ describe 'day 13' do
 [9]
 HEREDOC
 
+    example_arr = []
+    example_answer.each_line do |line|
+      example_arr << eval(line.chomp)
+    end
+
     it 'put packets in order' do
-      expect(Day13.order_packets('day13/data/day13example.txt')).to eq(example_answer)
+      # expect(Day13.order_packets('day13/data/day13example.txt').map(&:to_s).map(&:gsub(' ','')).join("\n")).to eq(example_answer)
+      expect(Day13.order_packets('day13/data/day13example.txt')).to eq(example_arr)
     end
 
     it 'finds example decoder key' do
