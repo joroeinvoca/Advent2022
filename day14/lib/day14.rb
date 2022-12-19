@@ -38,7 +38,7 @@ class Day14
     if add_floor
       lowest_level = cave_map.keys.max
       cave_map[lowest_level + 2] = {}
-      for floor in cave_map[lowest_level].keys.min - 50 .. cave_map[lowest_level].keys.max + 50 do
+      for floor in cave_map[lowest_level].keys.min - 200 .. cave_map[lowest_level].keys.max + 200 do
         cave_map[lowest_level + 2][floor] = '#'
       end
     end
