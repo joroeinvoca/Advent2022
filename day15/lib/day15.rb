@@ -23,12 +23,14 @@ class Day15
       end
 
       dist = calc_dist(sensor_x, sensor_y, beacon_x, beacon_y)
-      for y in sensor_y - dist .. sensor_y + dist
-        for x in (sensor_x - dist) .. (sensor_x + dist)
-          if calc_dist(sensor_x, sensor_y, x, y) <= dist
-            populate_map(x, y, '#')
-            if show_map
-              print_map
+      if [*sensor_y - dist .. sensor_y + dist].include? row
+        for y in sensor_y - dist .. sensor_y + dist
+          for x in (sensor_x - dist) .. (sensor_x + dist)
+            if calc_dist(sensor_x, sensor_y, x, y) <= dist
+              populate_map(x, y, '#')
+              if show_map
+                print_map
+              end
             end
           end
         end
