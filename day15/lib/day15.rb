@@ -5,7 +5,7 @@ class Day15
 
   def self.beaconless_locations(file, row, show_map=false)
     @beacon_map = {}
-    empty_spots = 0
+    covered_spots = 0
 
     File.foreach(file, chomp: true) do |line|
       # sensor
@@ -24,7 +24,7 @@ class Day15
 
       dist = calc_dist(sensor_x, sensor_y, beacon_x, beacon_y)
       for y in sensor_y - dist .. sensor_y + dist
-        for x in sensor_x - dist .. sensor_x + dist
+        for x in (sensor_x - dist) .. (sensor_x + dist)
           if calc_dist(sensor_x, sensor_y, x, y) <= dist
             populate_map(x, y, '#')
             if show_map
@@ -33,14 +33,13 @@ class Day15
           end
         end
       end
-
-      for i in @beacon_map[row].keys.min .. @beacon_map[row].keys.max
-        if !@beacon_map[row][i]
-          empty_spots += 1
-        end
+    end
+    for i in @beacon_map[row].keys.min .. @beacon_map[row].keys.max
+      if @beacon_map[row][i] == '#'
+        covered_spots += 1
       end
     end
-    empty_spots
+    covered_spots
   end
 
 
@@ -48,7 +47,9 @@ class Day15
     if !@beacon_map[y]
       @beacon_map[y] = {}
     end
-    @beacon_map[y][x] = label
+    if !@beacon_map[y][x]
+      @beacon_map[y][x] = label
+    end
   end
 
   def self.calc_dist(x1, y1, x2, y2)
@@ -59,8 +60,8 @@ class Day15
     y_min = @beacon_map.keys.min
     y_max = @beacon_map.keys.max
 
-    x_min = @beacon_map.values.map(&:keys).min[0]
-    x_max = @beacon_map.values.map(&:keys).max[0]
+    x_min = @beacon_map.values.map(&:keys).flatten.min
+    x_max = @beacon_map.values.map(&:keys).flatten.max
 
     x_min.to_s.chars.each do |char|
       puts(char.rjust(4, ' '))
