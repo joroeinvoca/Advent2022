@@ -1,7 +1,7 @@
 
 class Day15
   @beacon_map = {}
-
+  @full_row_ranges = []
 
   def self.beaconless_locations(file, row, show_map=false)
     @beacon_map = {}
@@ -84,10 +84,79 @@ class Day15
     @beacon_map.each do |row_num, x_vals|
       puts row_num
       if x_vals.count == max_coord
-        return calc_freq(row_num, [*0 .. max_coord + 1] - x_vals.keys)
+        special_x_vals = [*0 .. max_coord + 1] - x_vals.keys
+        return calc_freq(row_num, special_x_vals[0])
       end
     end
     nil
+  end
+
+  def self.find_freq_ranges(file, max_coord)
+    @beacon_map = {}
+    @full_row_ranges = []
+
+    File.foreach(file, chomp: true) do |line|
+      # sensor
+      puts line
+      sensor_x = line[12 .. line.index(',') - 1].to_i
+      sensor_y = line[line.index('y=') + 2 .. line.index(':') - 1].to_i
+
+      # beacon
+      beacon_x = line[line.index('x=', line.index(':')) + 2 .. line.index(', y=', line.index(':')) - 1].to_i
+      beacon_y = line[line.index('y=', line.index(':')) + 2 .. -1].to_i
+
+      dist = calc_dist(sensor_x, sensor_y, beacon_x, beacon_y)
+
+      y_rng = keep_range_within_bounds((sensor_y - dist .. sensor_y + dist), max_coord)
+
+      if y_rng.nil?
+        next
+      end
+
+      y_rng.each do |y_val|
+        if @full_row_ranges.size > 0
+          if is_row_full(y_val)
+            next
+          end
+        end
+
+
+        end_vals = [dist - (y_val - sensor_y).abs + sensor_x, - dist + (y_val - sensor_y).abs + sensor_x]
+        x_rng = keep_range_within_bounds((end_vals.min .. end_vals.max), max_coord)
+
+        if x_rng.nil?
+          next
+        end
+
+        populate_range_map(y_val, x_rng)
+
+        # puts "beacon_map[#{y_val}]: #{@beacon_map[y_val]}"
+
+        if @beacon_map[y_val][0] == (0 .. max_coord)
+          @full_row_ranges << (y_val .. y_val)
+          @full_row_ranges = combine_ranges(@full_row_ranges)
+        end
+      end
+    end
+
+    puts "full_row_ranges: #{@full_row_ranges}"
+
+    for i in 0 .. max_coord
+      if @full_row_ranges.size > 0 && !@full_row_ranges[0].cover?(i) && !@full_row_ranges[1].cover?(i)
+        return calc_freq(i, @beacon_map[i][0].max + 1)
+      end
+    end
+
+    nil
+  end
+
+  def self.is_row_full(y)
+    @full_row_ranges.each do |full_range|
+      if full_range.cover?(y)
+        return true
+      end
+    end
+    false
   end
 
   def self.find_freq_sections(file, max_coord, number_of_sections)
@@ -105,7 +174,7 @@ class Day15
   end
 
   def self.calc_freq(y, x)
-    x[0] * 4000000 + y
+    x * 4000000 + y
   end
 
   def self.populate_map(x, y, label)
@@ -115,6 +184,55 @@ class Day15
     if !@beacon_map[y][x]
       @beacon_map[y][x] = label
     end
+  end
+
+  def self.populate_range_map(y, x_rng)
+    # no ranges in row y
+    if !@beacon_map[y]
+      @beacon_map[y] = [x_rng]
+    else
+      @beacon_map[y] << x_rng
+      @beacon_map[y] = combine_ranges(@beacon_map[y])
+    end
+  end
+
+  def self.combine_ranges(ranges)
+    ranges.sort_by!(&:min)
+
+    i = 0
+
+    while ranges[i + 1]
+      # current contains start of next, combine
+      if ranges[i].cover?(ranges[i + 1].min) || ranges[i].max + 1 == ranges[i + 1].min
+        new_max = [ranges[i].max, ranges[i + 1].max].max
+        ranges[i] = (ranges[i].min .. new_max)
+        ranges.delete_at(i + 1)
+        combine_ranges(ranges)
+      end
+      i += 1
+    end
+    ranges
+  end
+
+  def self.keep_range_within_bounds(rng, max_coord, min_coord=0)
+    bottom = rng.min
+    top = rng.max
+
+    #if rng entirely outside of bounds, skip it
+    if top < min_coord || bottom > max_coord
+      return nil
+    end
+
+    # keep min 0 or above
+    if bottom < min_coord
+      bottom = min_coord
+    end
+
+    # keep max below max
+    if top > max_coord
+      top = max_coord
+    end
+    (bottom .. top)
   end
 
   def self.calc_dist(x1, y1, x2, y2)
