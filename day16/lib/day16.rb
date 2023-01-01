@@ -45,8 +45,7 @@ class Day16
 
       # eventually, just drop the worst routes
       if min > 5
-        # delete lowest 1/3?
-        cutoff = routes.map(&:last).min(routes.count / 2).last
+        cutoff = routes.map(&:last).min(routes.count * 0.6).last
         routes.delete_if do |route_to_delete|
           route_to_delete.last < cutoff
         end
