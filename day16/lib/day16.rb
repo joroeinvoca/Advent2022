@@ -61,6 +61,14 @@ class Day16
           routes[i][-1] = recalc_pressure(valve_flow, route)
         end
 
+        # get rid of routes that just bounce between valves
+        if min > 3
+          if route[min - 1] == route[min - 3] && route[min - 2] == route[min - 4]
+            route[min] = '$'
+            next
+          end
+        end
+
         current_valve = route[min - 1][0, 2]
         # if current_valve is off and current_valve's flow is > 0, try turning it on
         if !route.include?(current_valve + '1') && valve_flow[current_valve] > 0
