@@ -17,8 +17,6 @@ class Day16
       valve_map[valve_name] = tunnels
     end
 
-
-    #
     # [ [starting_point, min1, min2, min3, ... value] ]
     # 'AA' is off
     # 'AA1'
@@ -73,7 +71,6 @@ class Day16
         if !route.include?(current_valve + '1') && valve_flow[current_valve] > 0
           new_route = route.map(&:clone)
           new_route[min] = current_valve + '1'
-          #new_route[-1] = recalc_pressure(valve_flow, new_route)
           routes << new_route
         end
 
@@ -88,11 +85,9 @@ class Day16
           if ind < valve_map[current_valve].size - 1
             new_route = route.map(&:clone)
             new_route[min] = tunnel
-            #new_route[-1] = recalc_pressure(valve_flow, new_route)
             routes << new_route
           else
             routes[i][min] = tunnel
-            #routes[i][-1] = recalc_pressure(valve_flow, route)
           end
         end
       end
@@ -113,4 +108,7 @@ class Day16
     end
     new_pressure
   end
+
+  def self.max_pressure_to_release_team(file, min)
+
 end
