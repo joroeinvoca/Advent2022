@@ -29,9 +29,7 @@ class Day16
 
     routes[0] = ['AA'].fill(2, minutes - 1) { nil }
     routes[0] << 0
-
-    useful_valves = valve_flow.filter { |valve, flow| flow > 0 }.keys.map! { |valve| valve + '1' }
-
+    
     for min in 1 .. minutes
       puts "minute: #{min}"
       puts "routes: #{routes.size}"
