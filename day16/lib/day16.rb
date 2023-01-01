@@ -110,5 +110,7 @@ class Day16
   end
 
   def self.max_pressure_to_release_team(file, min)
+    
+  end
 
 end
